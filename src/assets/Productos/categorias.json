@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "ruta":"lamp",
+    "nombre": "Iluminación",
+    "descripcion": "Lámparas y luces decorativas"
+  },
+  {
+    "id": 2,
+    "ruta":"decoHogar",
+    "nombre": "Deco Hogar",
+    "descripcion": "Detalles que hacen la diferencia"
+  },
+  {
+    "id": 3,
+    "ruta":"jardin",
+    "nombre": "Jardín",
+    "descripcion": "Un nuevo hogar para tus plantas"
+  }
+]
