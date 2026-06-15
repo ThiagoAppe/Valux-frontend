@@ -4,7 +4,8 @@ import Navbar from "./components/navbar/navbar"
 
 import logo from "../src/assets/Logo/logo.webp"
 
-import Home from "./pages/Home"
+import Landing from "./pages/landing"
+
 // import Products from "./pages/products.jsx"
 // import ProductDetail from "./pages/productDetail"
 // import Cart from "./pages/cart"
@@ -15,24 +16,16 @@ import Home from "./pages/Home"
 
 const MainLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col text-neutral-100">
+    <div className="min-h-screen flex flex-col bg-white text-neutral-100">
       <Navbar />
 
-      <main
-        className="flex-1 w-full px-4 py-6"
-        style={{
-          backgroundImage: `url(${logo})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "600px",
-        }}
-      >
-        <div className="max-w-7xl mx-auto bg-neutral-950/80 backdrop-blur-sm rounded-2xl p-6">
+      <main className="flex-1 w-full px-4 py-6">
+        <div className="mx-auto p-6">
           <Outlet />
         </div>
       </main>
 
-      <footer className="bg-neutral-900 border-t border-neutral-800">
+      <footer className="">
         <div className="max-w-7xl mx-auto px-4 py-1 text-sm text-center text-neutral-400">
           © {new Date().getFullYear()} Valux Deco. Todos los derechos reservados.
         </div>
@@ -48,7 +41,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/Valux" element={<Landing />} />
           {/* <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
