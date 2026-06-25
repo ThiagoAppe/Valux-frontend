@@ -1,67 +1,72 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import ValuxLogo from "../../assets/Logo/Logo Blanco Fondo Transparente.webp"
+import { Link } from "react-router-dom";
+import {
+  House,
+  BookOpen,
+  Grid2x2,
+} from "lucide-react";
+import { FiShoppingCart, FiUser } from "react-icons/fi";
 
-import { FiShoppingCart, FiUser } from "react-icons/fi"
+
+const BubbleIcon = `
+group
+flex items-center
+overflow-hidden
+rounded-xl
+border border-white/20
+bg-gradient-to-br from-gray-200/35 to-gray-500/20
+backdrop-blur-md
+shadow-md
+transition-all duration-600
+hover:w-40
+w-12
+h-12
+px-3
+hover:from-gray-100/45
+hover:to-gray-400/30
+hover:shadow-lg
+`;
 
 const Navbar = () => {
-  const [DropdownOpen, SetDropdownOpen] = useState(false)
-
   return (
-    <nav className="w-full border-b bg-neutral-900 text-white">
-      <div className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
-
-        <Link to="/" className="flex items-center">
-          <img src={ValuxLogo} className="h-9" />
+    <nav className="absolute top-0 left-0 z-50 w-full flex">
+      <div className="mx-auto flex max-w-screen-xl justify-end p-6 gap-2">
+        <Link to="/" className={BubbleIcon}>
+          <House size={22} className="shrink-0" />
+          <span className="ml-3 whitespace-nowrap opacity-0 max-w-0 overflow-hidden transition-all duration-600 group-hover:max-w-24 group-hover:opacity-100">
+            Inicio
+          </span>
         </Link>
 
-        <div className="flex items-center gap-6">
-          <Link className="font-light tracking-wide text-white/70 transition hover:text-white">
-            Inicio
-          </Link>
-
-          <div className="relative">
-            <button
-              onClick={() => SetDropdownOpen(!DropdownOpen)}
-              className="font-light tracking-wide text-white/70 transition hover:text-white"
-            >
-              Categorías
-            </button>
-
-            {DropdownOpen && (
-              <div className="absolute mt-3 w-44 rounded-md border border-white/10 bg-black/10 backdrop-blur-sm">
-                <Link className="block px-3 py-2 text-white/70 hover:bg-white/5 hover:text-white">
-                  Categoría 1
-                </Link>
-
-                <Link className="block px-3 py-2 text-white/70 hover:bg-white/5 hover:text-white">
-                  Categoría 2
-                </Link>
-              </div>
-            )}
-          </div>
-
-          <Link className="font-light tracking-wide text-white/70 transition hover:text-white">
+        <Link to="/catalogo" className={BubbleIcon}>
+          <BookOpen size={22} className="shrink-0" />
+          <span className="ml-3 whitespace-nowrap opacity-0 max-w-0 overflow-hidden transition-all duration-600 group-hover:max-w-24 group-hover:opacity-100">
             Catálogo
-          </Link>
+          </span>
+        </Link>
 
-          <Link className="font-light tracking-wide text-white/70 transition hover:text-white">
-            Sobre nosotros
-          </Link>
-        </div>
+        <Link to="/categorias" className={BubbleIcon}>
+          <Grid2x2 size={22} className="shrink-0" />
+          <span className="ml-3 whitespace-nowrap opacity-0 max-w-0 overflow-hidden transition-all duration-600 group-hover:max-w-24 group-hover:opacity-100">
+            Categorías
+          </span>
+        </Link>
 
-        <div className="flex items-center gap-4">
-          <Link className="rounded-full p-2 text-white/70 transition hover:bg-white/5 hover:text-white">
-            <FiShoppingCart size={22} />
-          </Link>
+        <Link to="/carrito" className={BubbleIcon}>
+          <FiShoppingCart className="shrink-0" size={22} />
+          <span className="ml-3 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-600 group-hover:max-w-24 group-hover:opacity-100">
+            Carrito
+          </span>
+        </Link>
 
-          <Link className="rounded-full p-2 text-white/70 transition hover:bg-white/5 hover:text-white">
-            <FiUser size={22} />
-          </Link>
-        </div>
+        <Link to="/perfil" className={BubbleIcon}>
+          <FiUser className="shrink-0" size={22} />
+          <span className="ml-3 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-600 group-hover:max-w-24 group-hover:opacity-100">
+            Perfil
+          </span>
+        </Link>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

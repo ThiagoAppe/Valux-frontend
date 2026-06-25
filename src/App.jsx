@@ -16,23 +16,23 @@ import Landing from "./pages/landing"
 
 const MainLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-neutral-100">
+    <div className="min-h-dvh flex flex-col bg-white text-neutral-100 overflow-hidden">
       <Navbar />
 
-      <main className="flex-1 w-full px-4 py-6">
-        <div className="mx-auto p-6">
+      <main className="flex-1 flex">
+        <div className="flex-1 w-full px-4 py-6">
           <Outlet />
         </div>
       </main>
 
-      <footer className="">
-        <div className="max-w-7xl mx-auto px-4 py-1 text-sm text-center text-neutral-400">
+      <footer>
+        <div className="mx-auto px-4 py-1 text-sm text-center text-neutral-400">
           © {new Date().getFullYear()} Valux Deco. Todos los derechos reservados.
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
 
 
