@@ -1,121 +1,79 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ image, title, details, colors }) => {
-    const [selectedColor, setSelectedColor] = useState(colors[0]);
+import { fetchData } from "../../components/api/requests";
 
+const ProductCard = ({ product }) => {
     return (
-        <div className="w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg">
-            <img
-                src={image}
-                alt={title}
-                className="h-72 w-full object-cover"
-            />
+        <Link
+            to={`/catalog/${product.slug}`}
+            className="block"
+        >
+            <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg">
+                <img
+                    src={
+                        product.image_url ??
+                        "https://placehold.co/600x600?text=Sin+Imagen"
+                    }
+                    alt={product.name}
+                    className="aspect-square w-full object-cover"
+                />
 
-            <div className="p-5">
-                <h2 className="mb-4 text-xl font-semibold text-gray-900">
-                    {title}
-                </h2>
+                <div className="p-5">
+                    <h2 className="mb-4 text-xl font-semibold text-gray-900">
+                        {product.name}
+                    </h2>
 
-                <div className="mb-5 space-y-2 text-sm text-gray-600">
-                    {details.map((detail) => (
-                        <div
-                            key={detail.label}
-                            className="flex justify-between"
-                        >
-                            <span className="font-medium text-gray-800">
-                                {detail.label}
-                            </span>
-
-                            <span>{detail.value}</span>
-                        </div>
-                    ))}
-                </div>
-
-                <div>
-                    <p className="mb-3 text-sm font-semibold text-gray-800">
-                        Color
-                    </p>
-
-                    <div className="flex gap-3">
-                        {colors.map((color) => (
-                            <button
-                                key={color.name}
-                                onClick={() => setSelectedColor(color)}
-                                className={`h-9 w-9 rounded-full border-2 transition-all ${
-                                    selectedColor.name === color.name
-                                        ? "scale-110 border-black"
-                                        : "border-gray-300"
-                                }`}
-                                style={{ backgroundColor: color.hex }}
-                                title={color.name}
-                            />
-                        ))}
-                    </div>
-
-                    <p className="mt-3 text-sm text-gray-600">
-                        Seleccionado:{" "}
-                        <span className="font-medium">
-                            {selectedColor.name}
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-500">
+                            Desde
                         </span>
-                    </p>
+
+                        <span className="text-xl font-bold text-gray-900">
+                            $
+                            {Number(product.price_from).toLocaleString("es-AR")}
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
 const Catalog = () => {
-    const product = {
-        image:
-            "https://images.unsplash.com/photo-1616627454823-9cd1d9b9c1b0?w=800",
-        title: "Florero Geométrico",
-        details: [
-            {
-                label: "Modelo",
-                value: "Grande",
-            },
-            {
-                label: "Altura",
-                value: "22 cm",
-            },
-            {
-                label: "Material",
-                value: "PLA Premium",
-            },
-        ],
-        colors: [
-            {
-                name: "Blanco",
-                hex: "#FFFFFF",
-            },
-            {
-                name: "Negro",
-                hex: "#111111",
-            },
-            {
-                name: "Azul",
-                hex: "#2563EB",
-            },
-            {
-                name: "Rojo",
-                hex: "#DC2626",
-            },
-            {
-                name: "Verde",
-                hex: "#16A34A",
-            },
-        ],
-    };
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadProducts() {
+            try {
+                const data = await fetchData("/products/catalog");
+                setProducts(data);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadProducts();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex flex-1 items-center justify-center">
+                Cargando productos...
+            </div>
+        );
+    }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-10">
-            <section className="mx-auto flex max-w-7xl flex-wrap justify-center gap-8">
-                <ProductCard
-                    image={product.image}
-                    title={product.title}
-                    details={product.details}
-                    colors={product.colors}
-                />
+        <div className="bg-gray-100 px-4 py-8 sm:px-6 lg:px-8">
+            <section className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {products.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                    />
+                ))}
             </section>
         </div>
     );

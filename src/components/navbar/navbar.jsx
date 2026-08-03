@@ -12,11 +12,14 @@ group
 flex items-center
 overflow-hidden
 rounded-xl
-border border-white/20
-bg-gradient-to-br from-gray-200/35 to-gray-500/20
-backdrop-blur-md
+border border-gray-200
+bg-white/80
+backdrop-blur-xl
+text-gray-800
 shadow-md
-transition-all duration-600
+hover:bg-white
+hover:shadow-lg
+transition-all duration-500
 hover:w-40
 w-12
 h-12
@@ -28,7 +31,7 @@ hover:shadow-lg
 
 const Navbar = () => {
   return (
-    <nav className="absolute top-0 left-0 z-50 w-full flex">
+    <nav className="w-full flex">
       <div className="mx-auto flex max-w-screen-xl justify-end p-6 gap-2">
         <Link to="/" className={BubbleIcon}>
           <House size={22} className="shrink-0" />
@@ -37,7 +40,7 @@ const Navbar = () => {
           </span>
         </Link>
 
-        <Link to="/catalogo" className={BubbleIcon}>
+        <Link to="/catalog" className={BubbleIcon}>
           <BookOpen size={22} className="shrink-0" />
           <span className="ml-3 whitespace-nowrap opacity-0 max-w-0 overflow-hidden transition-all duration-600 group-hover:max-w-24 group-hover:opacity-100">
             Catálogo

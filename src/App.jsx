@@ -8,8 +8,10 @@ import Landing from "./pages/landing"
 
 import Catalog from "./pages/catalog/main"
 
+import Product from "./pages/product/main"
+
 // import Products from "./pages/products.jsx"
-// import ProductDetail from "./pages/productDetail"
+
 // import Cart from "./pages/cart"
 // import Checkout from "./pages/Checkout"
 // import About from "./pages/About"
@@ -43,18 +45,35 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/Valux" element={<Catalog />} />
-          {/* <Route path="/products" element={<Products />} />
-          <Route path="/products/:productId" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} /> */}
+          <Route
+            path="/"
+            element={<Landing />}
+          />
+
+          <Route
+            path="/catalog"
+            element={<Catalog />}
+          />
+
+          <Route
+            path="/catalog/:slug"
+            element={<Product />}
+          />
+
+          {/*
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:productId" element={<ProductDetail />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            */}
         </Route>
+
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;
