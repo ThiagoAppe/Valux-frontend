@@ -1,9 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  House,
-  BookOpen,
-  Grid2x2,
-} from "lucide-react";
+import { House, BookOpen, Grid2x2, Info, } from "lucide-react";
 import { FiShoppingCart, FiUser } from "react-icons/fi";
 
 
@@ -20,7 +16,7 @@ shadow-md
 hover:bg-white
 hover:shadow-lg
 transition-all duration-500
-hover:w-40
+hover:w-56
 w-12
 h-12
 px-3
@@ -47,11 +43,18 @@ const Navbar = () => {
           </span>
         </Link>
 
-        <Link to="/categorias" className={BubbleIcon}>
+        <Link to="/categories" className={BubbleIcon}>
           <Grid2x2 size={22} className="shrink-0" />
           <span className="ml-3 whitespace-nowrap opacity-0 max-w-0 overflow-hidden transition-all duration-600 group-hover:max-w-24 group-hover:opacity-100">
             Categorías
           </span>
+        </Link>
+
+        <Link to="/about" className={BubbleIcon}> 
+          <Info size={22} className="shrink-0" /> 
+          <span className="ml-3 whitespace-nowrap opacity-0 max-w-0 overflow-hidden transition-all duration-600 group-hover:max-w-35 group-hover:opacity-100"> 
+            Sobre nosotros 
+          </span> 
         </Link>
 
         <Link to="/carrito" className={BubbleIcon}>

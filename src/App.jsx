@@ -10,6 +10,10 @@ import Catalog from "./pages/catalog/main"
 
 import Product from "./pages/product/main"
 
+import Categories from "./pages/categories/main"
+
+import About from "./pages/about"
+
 // import Products from "./pages/products.jsx"
 
 // import Cart from "./pages/cart"
@@ -51,6 +55,11 @@ const App = () => {
           />
 
           <Route
+            path="/about"
+            element={<About />}
+          />
+
+          <Route
             path="/catalog"
             element={<Catalog />}
           />
@@ -59,6 +68,11 @@ const App = () => {
             path="/catalog/:slug"
             element={<Product />}
           />
+
+          {/* <Route
+            path="/categories"
+            element={<Categories />}
+          /> */}
 
           {/*
             <Route path="/products" element={<Products />} />
