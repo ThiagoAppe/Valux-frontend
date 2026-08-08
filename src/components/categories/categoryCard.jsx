@@ -1,37 +1,117 @@
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ product }) => {
+export default function CategoryCard({ category, categories }) {
+    const child_categories = categories.filter(
+        (child) => child.parent_id === category.id,
+    );
+
     return (
-        <Link
-            to={`/catalog/${product.slug}`}
-            className="block overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-md"
+        <article
+            className="
+                group
+                overflow-hidden
+                rounded-2xl
+                border
+                border-gray-100
+                bg-white
+                shadow-sm
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:border-gray-200
+                hover:shadow-xl
+            "
         >
-            <img
-                src={
-                    product.image_url ??
-                    "https://placehold.co/600x600?text=Sin+Imagen"
-                }
-                alt={product.name}
-                className="aspect-square w-full object-cover"
-            />
+            <Link to={`/catalog?category=${category.slug}`} className="block p-6">
+                <div className="flex items-start justify-between gap-4">
+                    <div>
+                        <h2
+                            className="
+                                text-xl
+                                font-semibold
+                                tracking-tight
+                                text-gray-900
+                            "
+                        >
+                            {category.name}
+                        </h2>
 
-            <div className="p-5">
-                <h2 className="mb-4 text-xl font-semibold text-gray-900">
-                    {product.name}
-                </h2>
+                        {child_categories.length > 0 && (
+                            <p className="mt-1 text-sm text-gray-500">
+                                {child_categories.length}{" "}
+                                {child_categories.length === 1
+                                    ? "subcategoría"
+                                    : "subcategorías"}
+                            </p>
+                        )}
+                    </div>
 
-                <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-500">
-                        Desde
-                    </span>
-
-                    <span className="text-xl font-bold text-gray-900">
-                        ${Number(product.price_from).toLocaleString("es-AR")}
+                    <span
+                        className="
+                            mt-1
+                            text-lg
+                            text-gray-300
+                            transition-all
+                            duration-300
+                            group-hover:translate-x-1
+                            group-hover:text-gray-900
+                        "
+                    >
+                        →
                     </span>
                 </div>
-            </div>
-        </Link>
-    );
-};
+            </Link>
 
-export default ProductCard;
+            {child_categories.length > 0 && (
+                <div
+                    className="
+                        border-t
+                        border-gray-100
+                        bg-gray-50/70
+                        px-6
+                        py-5
+                    "
+                >
+                    <p
+                        className="
+                            mb-3
+                            text-xs
+                            font-semibold
+                            uppercase
+                            tracking-wider
+                            text-gray-400
+                        "
+                    >
+                        Explorar
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                        {child_categories.map((child) => (
+                            <Link
+                                key={child.id}
+                                to={`/catalog?category=${child.slug}`}
+                                className="
+                                    rounded-full
+                                    border
+                                    border-gray-200
+                                    bg-white
+                                    px-3
+                                    py-1.5
+                                    text-sm
+                                    text-gray-600
+                                    transition-all
+                                    duration-200
+                                    hover:border-gray-900
+                                    hover:bg-gray-900
+                                    hover:text-white
+                                "
+                            >
+                                {child.name}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </article>
+    );
+}

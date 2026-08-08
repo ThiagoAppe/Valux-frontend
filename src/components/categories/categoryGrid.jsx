@@ -1,11 +1,15 @@
-// import CategoryCard from "./CategoryCard";
+import CategoryCard from "./categoryCard";
 
 export default function CategoryGrid({ categories }) {
-    if (categories.length === 0) {
+    const root_categories = categories.filter(
+        (category) => category.parent_id === null
+    );
+
+    if (root_categories.length === 0) {
         return (
-            <div className="py-20 text-center text-gray-500">
+            <p className="text-center text-gray-500">
                 No hay categorías disponibles.
-            </div>
+            </p>
         );
     }
 
@@ -19,12 +23,13 @@ export default function CategoryGrid({ categories }) {
                 xl:grid-cols-4
             "
         >
-            {/* {categories.map((category) => (
+            {root_categories.map((category) => (
                 <CategoryCard
                     key={category.id}
                     category={category}
+                    categories={categories}
                 />
-            ))} */}
+            ))}
         </div>
     );
 }

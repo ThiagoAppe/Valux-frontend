@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CategoriesHero from "../../components/categories/categoriesHero";
 import CategoryGrid from "../../components/categories/categoryGrid";
 
-import { getCategories } from "../../services/productService";
+import { getCategories } from "../../services/categoriesService";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
@@ -11,7 +11,7 @@ export default function Categories() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const load_categories = async () => {
+    const loadCategories = async () => {
       try {
         const response = await getCategories();
         setCategories(response);
@@ -22,14 +22,14 @@ export default function Categories() {
       }
     };
 
-    load_categories();
+    loadCategories();
   }, []);
 
   return (
-    <main className="min-h-screen bg-stone-50">
+    <main className="">
       <CategoriesHero />
 
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section className="mx-auto max-w-7xl px-6 pb-2">
         {loading && (
           <p className="text-center text-gray-500">Cargando categorías...</p>
         )}

@@ -24,8 +24,4 @@ async function getCatalog(options = {}) {
   return fetchData(`/products/catalog${query ? `?${query}` : ""}`);
 }
 
-async function getCategories() {
-  return fetchData("/categories");
-}
-
-export { getCatalog, getCategories };
+export { getCatalog }

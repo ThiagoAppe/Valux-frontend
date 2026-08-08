@@ -1,39 +1,79 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+
 import CategoryCard from "./categoryCard";
-
-const categories = [
-{ name: "Veladores", image: "https://media.base44.com/images/public/69d00920c08acc30b8df3cb4/6096835d8_generated_6f8a22d6.png" },
-{ name: "Lámparas Colgantes", image: "https://media.base44.com/images/public/69d00920c08acc30b8df3cb4/7f09c82b5_generated_505cf96b.png" },
-{ name: "Macetas", image: "https://media.base44.com/images/public/69d00920c08acc30b8df3cb4/de188ad4b_generated_77d5991f.png" },
-{ name: "Accesorios del Hogar", image: "https://media.base44.com/images/public/69d00920c08acc30b8df3cb4/55e1103c5_generated_088573ab.png" },
-{ name: "Muebles", image: "https://media.base44.com/images/public/69d00920c08acc30b8df3cb4/c4cc4879c_generated_553af7ec.png" }];
-
+import { getCategories } from "../../services/categoriesService";
 
 export default function Categories() {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const mainCategories = categories.filter(
+    (category) => category.parent_id === null,
+  );
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const response = await getCategories();
+        setCategories(response);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
   return (
-    <section id="categorias" className="text-black py-20 md:py-28 px-6 md:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}>
-          
-          <p className="mb-3 text-xl font-bold uppercase tracking-[0.25em]">COLECCIONES
+    <section>
+      <motion.div
+        className="mb-14 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <p className="mb-3 text-sm font-bold uppercase tracking-[0.3em] text-black">
+          COLECCIONES
+        </p>
 
-          </p>
-          <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Nuestras Categorías
-          </h2>
-        </motion.div>
+        <h2 className="font-heading text-4xl font-medium text-black md:text-5xl">
+          Nuestras Categorías
+        </h2>
+      </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-          {categories.map((cat, i) =>
-          <CategoryCard key={cat.name} name={cat.name} image={cat.image} index={i} />
-          )}
+      {loading && (
+        <p className="text-center text-sm text-neutral-500">
+          Cargando categorías...
+        </p>
+      )}
+
+      {error && (
+        <p className="text-center text-sm text-red-500">
+          No fue posible cargar las categorías.
+        </p>
+      )}
+
+      {!loading && !error && (
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+          {mainCategories.map((category, index) => (
+            <div
+              key={category.slug}
+              className="w-[calc(50%-0.5rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.2rem)]"
+            >
+              <CategoryCard
+                name={category.name}
+                image={category.image_url}
+                index={index}
+              />
+            </div>
+          ))}
         </div>
-      </div>
-    </section>);
-
+      )}
+    </section>
+  );
 }
