@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import CategoryCard from "./CategoryCard";
+import CategoryCard from "./categoryCard";
 
 const categories = [
 { name: "Veladores", image: "https://media.base44.com/images/public/69d00920c08acc30b8df3cb4/6096835d8_generated_6f8a22d6.png" },

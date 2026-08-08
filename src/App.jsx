@@ -1,18 +1,18 @@
-import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom";
 
-import Navbar from "./components/navbar/navbar"
+import Navbar from "./components/navbar/navbar";
 
-import logo from "../src/assets/Logo/logo.webp"
+import logo from "../src/assets/Logo/logo.webp";
 
-import Landing from "./pages/landing"
+import Landing from "./pages/landing";
 
-import Catalog from "./pages/catalog/main"
+import Catalog from "./pages/catalog/catalogMain";
 
-import Product from "./pages/product/main"
+import Product from "./pages/product/productMain";
 
-import Categories from "./pages/categories/main"
+import Categories from "./pages/categories/categoriesMain";
 
-import About from "./pages/about"
+import About from "./pages/about";
 
 // import Products from "./pages/products.jsx"
 
@@ -20,7 +20,7 @@ import About from "./pages/about"
 // import Checkout from "./pages/Checkout"
 // import About from "./pages/About"
 // import Contact from "./pages/contact"
-// import NotFound from "./pages/notFound"
+import NotFound from "./pages/notFound"
 
 const MainLayout = () => {
   return (
@@ -35,59 +35,30 @@ const MainLayout = () => {
 
       <footer>
         <div className="mx-auto px-4 py-1 text-sm text-center text-neutral-400">
-          © {new Date().getFullYear()} Valux Deco. Todos los derechos reservados.
+          © {new Date().getFullYear()} Valux Deco. Todos los derechos
+          reservados.
         </div>
       </footer>
     </div>
   );
 };
 
-
-
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route
-            path="/"
-            element={<Landing />}
-          />
-
-          <Route
-            path="/about"
-            element={<About />}
-          />
-
-          <Route
-            path="/catalog"
-            element={<Catalog />}
-          />
-
-          <Route
-            path="/catalog/:slug"
-            element={<Product />}
-          />
-
-          {/* <Route
-            path="/categories"
-            element={<Categories />}
-          /> */}
-
-          {/*
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:productId" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            */}
-        </Route>
-
-        {/* <Route path="*" element={<NotFound />} /> */}
-      </Routes>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route element={<MainLayout />}>
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/catalog" element={<Catalog />} />
+                    <Route path="/catalog/:slug" element={<Product />} />
+                    <Route path="/categories" element={<Categories />} />
+                    
+                    <Route path="*" element={<NotFound />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 export default App;

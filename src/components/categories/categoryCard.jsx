@@ -1,46 +1,37 @@
 import { Link } from "react-router-dom";
 
-export default function CategoryCard({ category }) {
+const ProductCard = ({ product }) => {
     return (
         <Link
-            to={`/catalog?category=${category.slug}`}
-            className="
-                group
-                overflow-hidden
-                rounded-2xl
-                border
-                border-gray-200
-                bg-white
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:shadow-lg
-            "
+            to={`/catalog/${product.slug}`}
+            className="block overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-md"
         >
-            <div className="aspect-square overflow-hidden bg-stone-100">
-                <img
-                    src={category.image_url}
-                    alt={category.name}
-                    className="
-                        h-full
-                        w-full
-                        object-cover
-                        transition-transform
-                        duration-500
-                        group-hover:scale-105
-                    "
-                />
-            </div>
+            <img
+                src={
+                    product.image_url ??
+                    "https://placehold.co/600x600?text=Sin+Imagen"
+                }
+                alt={product.name}
+                className="aspect-square w-full object-cover"
+            />
 
-            <div className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900">
-                    {category.name}
+            <div className="p-5">
+                <h2 className="mb-4 text-xl font-semibold text-gray-900">
+                    {product.name}
                 </h2>
 
-                <p className="mt-2 text-sm text-gray-500">
-                    {category.product_count} productos
-                </p>
+                <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">
+                        Desde
+                    </span>
+
+                    <span className="text-xl font-bold text-gray-900">
+                        ${Number(product.price_from).toLocaleString("es-AR")}
+                    </span>
+                </div>
             </div>
         </Link>
     );
-}
+};
+
+export default ProductCard;
