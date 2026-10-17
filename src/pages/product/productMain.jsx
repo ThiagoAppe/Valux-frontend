@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { fetchData } from "../../services/api/requests";
+import { getProduct } from "../../services/productService";
 import ProductDetail from "../../components/product/product";
 
 const Product = () => {
@@ -13,8 +13,10 @@ const Product = () => {
     useEffect(() => {
         async function loadProduct() {
             try {
-                const data = await fetchData(`/products/${slug}`);
+                const data = await getProduct(slug);
                 setProduct(data);
+            } catch {
+                setProduct(null);
             } finally {
                 setLoading(false);
             }

@@ -28,4 +28,8 @@ async function getCatalog(options = {}) {
   return fetchData(`/products/catalog${query ? `?${query}` : ""}`);
 }
 
-export { getCatalog };
+async function getProduct(slug) {
+  return fetchData(`/products/${slug}`);
+}
+
+export { getCatalog, getProduct };

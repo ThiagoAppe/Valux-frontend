@@ -7,12 +7,6 @@ async function request(endpoint, options = {}) {
       ...options,
     });
 
-    if (response.status === 401) {
-      // Redirigir al login
-      window.location.assign("/login");
-      return null;
-    }
-
     if (!response.ok) {
       let message = "No se pudo completar la solicitud.";
 
@@ -21,7 +15,9 @@ async function request(endpoint, options = {}) {
       if (contentType?.includes("application/json")) {
         try {
           const errorData = await response.json();
-          message = errorData.detail || message;
+          if (typeof errorData.detail === "string") {
+            message = errorData.detail;
+          }
         } catch {
           // Ignorar errores de parseo
         }
@@ -45,7 +41,7 @@ async function request(endpoint, options = {}) {
 
     return await response.text();
   } catch (error) {
-    console.error("Error de conexión:", error);
+    if (error.status !== 401) console.error("Error de conexión:", error);
     throw error;
   }
 }
@@ -80,4 +76,33 @@ async function postFormData(endpoint, formData) {
   });
 }
 
-export { fetchData, postData, postFormData };
+async function patchData(endpoint, body) {
+  return request(endpoint, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+async function putData(endpoint, body) {
+  return request(endpoint, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+async function deleteData(endpoint) {
+  return request(endpoint, {
+    method: "DELETE",
+    headers: { Accept: "application/json" },
+  });
+}
+
+export { deleteData, fetchData, patchData, postData, postFormData, putData };
