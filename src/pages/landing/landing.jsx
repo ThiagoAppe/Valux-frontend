@@ -106,7 +106,7 @@ const Hero = () => (
       <img
         src="/Landing/landingBG.webp"
         alt=""
-        className="relative z-20 h-full w-full object-cover object-center"
+        className="relative z-20 h-full w-full translate-y-10 object-cover object-center md:translate-y-0"
       />
     </div>
 
