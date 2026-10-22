@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build:
+      context: .
+    container_name: valux-frontend
+    restart: unless-stopped
+    networks:
+      - edge
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  edge:
+    name: valux_deco_edge
+    external: true
