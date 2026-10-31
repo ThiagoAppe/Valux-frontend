@@ -7,7 +7,7 @@ import { getCheckoutOrder } from "../../services/checkoutService";
 const messages = {
   paid: {
     title: "Pago acreditado",
-    text: "Recibimos tu pago. Vamos a confirmar el envío cuando esté cotizado.",
+    text: "Recibimos tu pago. Prepararemos el envío o el retiro según la modalidad que elegiste.",
     icon: CheckCircle2,
     color: "text-green-700",
   },
@@ -22,6 +22,12 @@ const messages = {
     text: "Volvé al carrito e intentá nuevamente.",
     icon: CircleAlert,
     color: "text-red-700",
+  },
+  cash_payment_pending: {
+    title: "Pedido registrado para pago en efectivo",
+    text: "Coordinaremos el pago y el envío con vos antes de preparar el pedido.",
+    icon: Clock3,
+    color: "text-primary",
   },
 };
 

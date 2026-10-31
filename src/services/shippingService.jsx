@@ -1,5 +1,9 @@
 import { postData } from "./api/requests";
 
-const quoteAndreaniShipping = (items) => postData("/shipping/andreani/quote", { items });
+const quoteShipping = (items, addressId, deliveryMethod) => postData("/shipping/quote", {
+  items,
+  address_id: addressId,
+  delivery_method: deliveryMethod,
+});
 
-export { quoteAndreaniShipping };
+export { quoteShipping };
