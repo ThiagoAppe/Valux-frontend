@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { Minus, Plus, ShoppingBag, Trash2, Truck } from "lucide-react";
 import { useCart } from "../../context/cartContext";
 import useAuth from "../../context/useAuth";
 
@@ -10,7 +10,7 @@ const CartMain = () => {
   const { items, subtotal, updateQuantity, removeItem, clearCart } = useCart();
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
-  const continuePurchase = () => {
+  const startCheckout = () => {
     if (!user) {
       navigate("/perfil?returnTo=/checkout/envio");
       return;
@@ -75,9 +75,9 @@ const CartMain = () => {
           <h2 className="text-xl font-semibold">Resumen</h2>
           <div className="mt-5 flex items-center justify-between border-b border-border pb-4 text-text-secondary"><span>Subtotal</span><span className="font-medium text-text">${formatPrice(subtotal)}</span></div>
           <div className="mt-4 flex items-center justify-between text-lg font-semibold"><span>Total</span><span className="text-primary">${formatPrice(subtotal)}</span></div>
-          <p className="mt-3 text-sm text-text-secondary">Primero vamos a cotizar el envío. Luego podrás elegir cómo pagar.</p>
+          <p className="mt-3 text-sm text-text-secondary">Primero calcularemos el envío según tu dirección. Después elegís cómo pagar.</p>
           {!user && !isLoading && <p className="mt-4 text-sm text-text-secondary">Vas a ingresar o registrarte antes de cotizar el envío.</p>}
-          <button type="button" disabled={isLoading} onClick={continuePurchase} className="mt-6 w-full rounded-xl bg-background-dark px-5 py-3 font-semibold text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60">{user ? "Continuar con el envío" : "Ingresar para continuar"}</button>
+          <button type="button" disabled={isLoading} onClick={startCheckout} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"><Truck size={19} />{user ? "Continuar con el envío" : "Ingresar para continuar"}</button>
         </aside>
       </div>
     </main>
