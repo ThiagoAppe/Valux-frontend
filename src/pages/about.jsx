@@ -135,14 +135,7 @@ const About = () => {
       </section>
 
       {/* Qué hacemos */}
-      <section className="bg-[#3E2C23] text-white flex">
-        <div className="flex justify-center">
-          <img
-            className="w-full max-w-md"
-            src="logo-BL.png"
-            alt="Logo"
-          />
-        </div>
+      <section className="bg-[#3E2C23] text-white">
         <div className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
           <div className="max-w-2xl">
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">
@@ -155,38 +148,59 @@ const About = () => {
           </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            <article className="rounded-2xl border border-white/10 bg-white/5 p-7">
-              <span className="text-sm font-semibold text-zinc-400">01</span>
+            <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+              <img
+                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=900&q=80"
+                alt="Impresora 3D fabricando una pieza"
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <div className="p-7">
+                <span className="text-sm font-semibold text-zinc-400">01</span>
 
-              <h3 className="mt-5 text-xl font-semibold">Impresión 3D</h3>
+                <h3 className="mt-5 text-xl font-semibold">Impresión 3D</h3>
 
-              <p className="mt-3 leading-7 text-zinc-400">
-                Objetos decorativos y funcionales fabricados mediante impresión
-                3D, con diferentes diseños, tamaños y terminaciones.
-              </p>
+                <p className="mt-3 leading-7 text-zinc-400">
+                  Objetos decorativos y funcionales fabricados mediante impresión
+                  3D, con diferentes diseños, tamaños y terminaciones.
+                </p>
+              </div>
             </article>
 
-            <article className="rounded-2xl border border-white/10 bg-white/5 p-7">
-              <span className="text-sm font-semibold text-zinc-400">02</span>
+            <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+              <img
+                src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80"
+                alt="Muebles en un espacio de hogar"
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <div className="p-7">
+                <span className="text-sm font-semibold text-zinc-400">02</span>
 
-              <h3 className="mt-5 text-xl font-semibold">Muebles</h3>
+                <h3 className="mt-5 text-xl font-semibold">Muebles</h3>
 
-              <p className="mt-3 leading-7 text-zinc-400">
-                Muebles pensados para distintos espacios, desde modelos
-                disponibles en nuestro catálogo hasta proyectos realizados a
-                medida.
-              </p>
+                <p className="mt-3 leading-7 text-zinc-400">
+                  Muebles pensados para distintos espacios, desde modelos
+                  disponibles en nuestro catálogo hasta proyectos realizados a
+                  medida.
+                </p>
+              </div>
             </article>
 
-            <article className="rounded-2xl border border-white/10 bg-white/5 p-7">
-              <span className="text-sm font-semibold text-zinc-400">03</span>
+            <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+              <img
+                src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=900&q=80"
+                alt="Interior preparado con detalles personalizados"
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <div className="p-7">
+                <span className="text-sm font-semibold text-zinc-400">03</span>
 
-              <h3 className="mt-5 text-xl font-semibold">Personalización</h3>
+                <h3 className="mt-5 text-xl font-semibold">Personalización</h3>
 
-              <p className="mt-3 leading-7 text-zinc-400">
-                Adaptamos productos y desarrollamos nuevas propuestas para que
-                cada pieza pueda responder a una necesidad concreta.
-              </p>
+                <p className="mt-3 leading-7 text-zinc-400">
+                  Adaptamos productos y desarrollamos nuevas propuestas para que
+                  cada pieza pueda responder a una necesidad concreta.
+                </p>
+              </div>
             </article>
           </div>
         </div>
