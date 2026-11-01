@@ -102,11 +102,11 @@ const faqs = [
 
 const Hero = () => (
   <section className="-mx-4 relative h-[60vh] overflow-hidden md:h-full">
-    <div>
+    <div className="overflow-hidden">
       <img
         src="/Landing/landingBG.webp"
         alt=""
-        className="relative z-20 h-full w-full translate-y-10 object-cover object-center md:translate-y-0"
+        className="relative left-1/2 z-20 h-full w-[300%] max-w-none -translate-x-1/2 -translate-y-8 object-cover object-center md:left-auto md:w-full md:translate-x-0 md:translate-y-0"
       />
     </div>
 
