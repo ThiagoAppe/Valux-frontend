@@ -35,7 +35,7 @@ const About = () => {
           <div className="relative">
             <div className="aspect-square overflow-hidden rounded-3xl bg-zinc-100">
               <img
-                src="/Landing/inspiracion/about-taller.webp"
+                src="/Landing/inspiracion/about-taller-v2.webp"
                 alt="Taller con una impresora 3D fabricando un jarrón, rodeada de piezas terminadas"
                 className="h-full w-full object-cover"
               />
@@ -151,7 +151,7 @@ const About = () => {
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
-                src="/Landing/inspiracion/about-impresion3d.webp"
+                src="/Landing/inspiracion/about-impresion3d-v2.webp"
                 alt="Boquilla de una impresora 3D construyendo un jarrón capa por capa"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
@@ -170,7 +170,7 @@ const About = () => {
 
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
-                src="/Landing/inspiracion/about-muebles.webp"
+                src="/Landing/inspiracion/about-muebles-v2.webp"
                 alt="Mesa auxiliar de roble en un living luminoso"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
@@ -190,7 +190,7 @@ const About = () => {
 
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
-                src="/Landing/inspiracion/about-personalizacion.webp"
+                src="/Landing/inspiracion/about-personalizacion-v2.webp"
                 alt="Boceto y relieve tallado en madera sobre un escritorio de trabajo"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
