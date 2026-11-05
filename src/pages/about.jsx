@@ -36,7 +36,7 @@ const About = () => {
             <div className="aspect-square overflow-hidden rounded-3xl bg-zinc-100">
               <img
                 src="/Landing/inspiracion/about-taller.webp"
-                alt="Bandeja y difusor de diseño sobre una mesa de madera"
+                alt="Taller con una impresora 3D fabricando un jarrón, rodeada de piezas terminadas"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -96,10 +96,12 @@ const About = () => {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="order-2 lg:order-1">
             <div className="aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-100">
-              <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-primary-light/50 p-10 text-center">
-                <img src="/Logo/logoNegro.png" alt="" className="w-40 opacity-80" />
-                <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">Luciano Valentino</p>
-              </div>
+              <img
+                src="/Landing/inspiracion/about-artesano.webp"
+                alt="Manos de un artesano sosteniendo un jarrón impreso en 3D"
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
             </div>
           </div>
 
@@ -150,7 +152,7 @@ const About = () => {
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
                 src="/Landing/inspiracion/about-impresion3d.webp"
-                alt="Difusor con textura de capas, típica de la impresión 3D"
+                alt="Boquilla de una impresora 3D construyendo un jarrón capa por capa"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
               />
@@ -169,7 +171,7 @@ const About = () => {
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
                 src="/Landing/inspiracion/about-muebles.webp"
-                alt="Living con muebles de madera y tapizados"
+                alt="Mesa auxiliar de roble en un living luminoso"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
               />
@@ -189,7 +191,7 @@ const About = () => {
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
                 src="/Landing/inspiracion/about-personalizacion.webp"
-                alt="Relieve tallado a medida sobre madera"
+                alt="Boceto y relieve tallado en madera sobre un escritorio de trabajo"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
               />
