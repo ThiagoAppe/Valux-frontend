@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LogOut, Mail, MapPin, Save, UserRound } from "lucide-react";
+import OrdersTab from "./ordersTab";
 import Modal from "../../components/modal/modal";
 import useAuth from "../../context/useAuth";
 import { resendVerification } from "../../services/authService";
@@ -264,8 +265,20 @@ const AuthenticationForm = ({ sessionError, returnTo }) => {
   );
 };
 
+const TABS = [
+  { id: "datos", label: "Mis datos" },
+  { id: "compras", label: "Mis compras" },
+];
+
 const AuthenticatedProfile = ({ user, logout, updateCurrentUser, returnTo }) => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = TABS.some((tab) => tab.id === searchParams.get("tab")) ? searchParams.get("tab") : "datos";
+  const selectTab = (tabId) => {
+    const next = new URLSearchParams(searchParams);
+    if (tabId === "datos") next.delete("tab"); else next.set("tab", tabId);
+    setSearchParams(next, { replace: true });
+  };
   const [profile, setProfile] = useState(() => profileFromUser(user));
   const [savedMessage, setSavedMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -385,14 +398,22 @@ const AuthenticatedProfile = ({ user, logout, updateCurrentUser, returnTo }) => 
         <div>
           <p className="text-sm uppercase tracking-[0.2em] text-text-secondary">Mi cuenta</p>
           <h1 className="mt-2 text-3xl font-semibold">Hola{profile.firstName ? `, ${profile.firstName}` : ""}</h1>
-          <p className="mt-2 text-text-secondary">Completá tus datos para que tus próximas compras sean más simples.</p>
+          <p className="mt-2 text-text-secondary">{activeTab === "compras" ? "Seguí el estado de tus pedidos y pedí ayuda cuando la necesites." : "Completá tus datos para que tus próximas compras sean más simples."}</p>
         </div>
         <button type="button" onClick={signOut} disabled={isSigningOut} className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-medium transition hover:border-primary hover:text-primary disabled:opacity-60"><LogOut size={17} />{isSigningOut ? "Cerrando…" : "Cerrar sesión"}</button>
       </div>
 
-      {errorMessage && <p role="alert" className="mb-5 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
+      <div role="tablist" aria-label="Secciones de tu cuenta" className="mb-6 flex w-fit max-w-full gap-1.5 overflow-x-auto rounded-2xl border border-border bg-white p-1.5">
+        {TABS.map((tab) => (
+          <button key={tab.id} type="button" role="tab" id={`tab-${tab.id}`} aria-selected={activeTab === tab.id} aria-controls={`panel-${tab.id}`} onClick={() => selectTab(tab.id)} className={`whitespace-nowrap rounded-xl px-5 py-2 text-sm font-medium transition ${activeTab === tab.id ? "bg-background-dark text-white shadow-sm" : "text-text-secondary hover:bg-primary-light/30 hover:text-text"}`}>{tab.label}</button>
+        ))}
+      </div>
 
-      <form onSubmit={saveProfile} className="grid gap-6 lg:grid-cols-[1fr_0.72fr]">
+      {activeTab === "compras" && <div role="tabpanel" id="panel-compras" aria-labelledby="tab-compras"><OrdersTab /></div>}
+
+      {activeTab === "datos" && errorMessage && <p role="alert" className="mb-5 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>}
+
+      {activeTab === "datos" && <form onSubmit={saveProfile} className="grid gap-6 lg:grid-cols-[1fr_0.72fr]">
         <div className="space-y-6">
           <section className="rounded-2xl border border-border bg-white p-5 shadow-sm sm:p-6">
             <div className="flex items-center gap-3"><div className="rounded-xl bg-primary/10 p-2.5 text-primary"><UserRound size={20} /></div><div><h2 className="font-semibold">Datos personales</h2><p className="text-sm text-text-secondary">Cómo queremos identificarte.</p></div></div>
@@ -425,7 +446,7 @@ const AuthenticatedProfile = ({ user, logout, updateCurrentUser, returnTo }) => 
           <button type="submit" disabled={isSaving || isProfileLoading} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-background-dark px-5 py-3 font-semibold text-white transition hover:bg-primary-dark disabled:cursor-wait disabled:opacity-60"><Save size={18} />{isSaving ? "Guardando…" : isProfileLoading ? "Cargando datos…" : "Guardar datos"}</button>
           {savedMessage && <p aria-live="polite" className="mt-3 text-center text-sm text-green-700">{savedMessage}</p>}
         </aside>
-      </form>
+      </form>}
     </main>
   );
 };
