@@ -14,6 +14,7 @@ import CartMain from "./pages/cart/cartMain";
 import PaymentResultMain from "./pages/checkout/paymentResultMain";
 import ShippingQuoteMain from "./pages/checkout/shippingQuoteMain";
 import ProfileMain from "./pages/profile/profileMain";
+import VerifyEmailMain from "./pages/profile/verifyEmailMain";
 import PanelMain from "./pages/panel/panelMain";
 import AdminProductsMain from "./pages/panel/adminProductsMain";
 import AdminCategoriesMain from "./pages/panel/adminCategoriesMain";
@@ -54,6 +55,7 @@ const App = () => {
               <Route path="/checkout/envio" element={<ShippingQuoteMain />} />
               <Route path="/pago/resultado" element={<PaymentResultMain />} />
               <Route path="/perfil" element={<ProfileMain />} />
+              <Route path="/verificar-email" element={<VerifyEmailMain />} />
               <Route path="/panel" element={<PanelMain />} />
               <Route path="/panel/productos" element={<AdminProductsMain />} />
               <Route path="/panel/configuracion-catalogo" element={<CatalogConfigurationMain />} />
