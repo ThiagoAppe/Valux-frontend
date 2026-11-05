@@ -6,6 +6,8 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+ARG VITE_ENABLE_MP_TEST_CHECKOUT=false
+ENV VITE_ENABLE_MP_TEST_CHECKOUT=$VITE_ENABLE_MP_TEST_CHECKOUT
 RUN npm run build
 
 FROM nginx:1.27-alpine
