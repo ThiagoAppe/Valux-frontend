@@ -21,3 +21,11 @@
   --color-border: #d9bfa7;
   --color-accent: #a47148;
 }
+/* Modales: entrada suave (se respeta prefers-reduced-motion). */
+@keyframes modal-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-rise { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+.modal-backdrop { animation: modal-fade 160ms ease-out; }
+.modal-panel { animation: modal-rise 220ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop, .modal-panel { animation: none; }
+}

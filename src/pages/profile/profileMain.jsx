@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LogOut, Mail, MapPin, Save, UserRound } from "lucide-react";
+import Modal from "../../components/modal/modal";
 import useAuth from "../../context/useAuth";
 import { resendVerification } from "../../services/authService";
 import { createAddress, getAddresses, requestEmailChange, updateAddress, updateProfile } from "../../services/profileService";
@@ -34,23 +35,24 @@ const Field = ({ label, name, value, onChange, type = "text", autoComplete, requ
   </label>
 );
 
-const VerificationNotice = ({ email, kind, onResend, onBack, isSubmitting, message, error }) => (
-  <main className="mx-auto flex w-full max-w-md flex-col justify-center px-2 py-10 text-text sm:px-6 lg:min-h-[38rem]">
-    <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
-      <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"><Mail size={25} /></div>
-      <h1 className="mt-6 text-3xl font-semibold">{kind === "registered" ? "Revisá tu correo" : "Confirmá tu email"}</h1>
-      <p className="mt-3 text-text-secondary">
-        {kind === "registered"
-          ? <>Te enviamos un email a <strong className="text-text">{email}</strong>. Abrí el enlace que contiene para confirmar tu cuenta; después vas a poder iniciar sesión.</>
-          : <>Tu cuenta todavía no está confirmada. Te enviamos un email a <strong className="text-text">{email}</strong> con el enlace para activarla; si no lo encontrás, pedí uno nuevo.</>}
-      </p>
-      <p className="mt-3 text-sm text-text-secondary">Si no lo ves, revisá la carpeta de spam. El enlace vence en 24 horas.</p>
-      {message && <p aria-live="polite" className="mt-4 rounded-xl bg-sky-50 px-4 py-3 text-sm text-sky-800">{message}</p>}
-      {error && <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-      <button type="button" onClick={onResend} disabled={isSubmitting} className="mt-6 w-full rounded-xl bg-background-dark px-5 py-3 font-semibold text-white transition hover:bg-primary-dark disabled:cursor-wait disabled:opacity-60">{isSubmitting ? "Enviando…" : "Reenviar correo"}</button>
-      <button type="button" onClick={onBack} className="mt-3 w-full text-sm font-medium text-primary underline">Volver a ingresar</button>
+const primaryButton = "w-full rounded-xl bg-background-dark px-5 py-3 font-semibold text-white transition hover:bg-primary-dark disabled:cursor-wait disabled:opacity-60";
+const secondaryButton = "w-full rounded-xl border border-border bg-white px-5 py-3 font-medium text-text transition hover:border-primary hover:text-primary disabled:cursor-wait disabled:opacity-60";
+
+const VerificationNotice = ({ email, kind, onResend, onClose, isSubmitting, message, error }) => (
+  <Modal title={kind === "registered" ? "Revisá tu correo" : "Confirmá tu email"} icon={<Mail size={25} />} onClose={onClose}>
+    <p className="mt-3 text-text-secondary">
+      {kind === "registered"
+        ? <>Te enviamos un email a <strong className="text-text">{email}</strong>. Abrí el enlace que contiene para confirmar tu cuenta; después vas a poder iniciar sesión.</>
+        : <>Tu cuenta todavía no está confirmada. Te enviamos un email a <strong className="text-text">{email}</strong> con el enlace para activarla; si no lo encontrás, pedí uno nuevo.</>}
+    </p>
+    <p className="mt-3 text-sm text-text-secondary">Si no lo ves, revisá la carpeta de spam. El enlace vence en 24 horas.</p>
+    {message && <p aria-live="polite" className="mt-4 rounded-xl bg-primary/10 px-4 py-3 text-sm text-primary-dark">{message}</p>}
+    {error && <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+    <div className="mt-6 grid gap-3">
+      <button type="button" onClick={onClose} className={primaryButton}>Entendido</button>
+      <button type="button" onClick={onResend} disabled={isSubmitting} className={secondaryButton}>{isSubmitting ? "Enviando…" : "Reenviar correo"}</button>
     </div>
-  </main>
+  </Modal>
 );
 
 const EmailChange = ({ currentEmail }) => {
@@ -61,26 +63,32 @@ const EmailChange = ({ currentEmail }) => {
   const [error, setError] = useState("");
   const [sentTo, setSentTo] = useState("");
 
+  const open = () => {
+    setSentTo("");
+    setError("");
+    setIsOpen(true);
+  };
+
   const close = () => {
     setIsOpen(false);
     setNewEmail("");
     setPassword("");
     setError("");
+    setSentTo("");
   };
 
-  // Este bloque vive dentro del formulario del perfil: no puede ser otro <form>.
-  const submit = async () => {
+  const submit = async (event) => {
+    // El modal se monta en un portal dentro del formulario del perfil:
+    // evitar que el envío llegue a ese formulario.
+    event.preventDefault();
+    event.stopPropagation();
     setError("");
-    setSentTo("");
-    if (!newEmail.trim() || !password) {
-      setError("Completá el nuevo email y tu contraseña.");
-      return;
-    }
     setIsSending(true);
     try {
       await requestEmailChange({ new_email: newEmail.trim(), password });
       setSentTo(newEmail.trim());
-      close();
+      setNewEmail("");
+      setPassword("");
     } catch (requestError) {
       setError(requestError.message || "No se pudo iniciar el cambio de email.");
     } finally {
@@ -88,30 +96,32 @@ const EmailChange = ({ currentEmail }) => {
     }
   };
 
-  const onEnter = (event) => {
-    if (event.key !== "Enter") return;
-    event.preventDefault();
-    submit();
-  };
-
   return (
     <div className="sm:col-span-2">
       <Field label="Email" name="email" type="email" value={currentEmail} onChange={() => {}} autoComplete="email" disabled />
-      {!isOpen && (
-        <button type="button" onClick={() => { setIsOpen(true); setSentTo(""); }} className="mt-2 text-sm font-medium text-primary underline">Cambiar email</button>
+      <button type="button" onClick={open} className="mt-2 text-sm font-medium text-primary underline">Cambiar email</button>
+
+      {isOpen && !sentTo && (
+        <Modal title="Cambiar email" icon={<Mail size={25} />} onClose={close}>
+          <p className="mt-3 text-text-secondary">Te enviaremos un enlace al nuevo email. El cambio se aplica cuando lo confirmes; hasta entonces seguís ingresando con <strong className="text-text">{currentEmail}</strong>.</p>
+          <form onSubmit={submit} className="mt-6 space-y-4">
+            <Field label="Nuevo email" name="newEmail" type="email" value={newEmail} onChange={(event) => { setNewEmail(event.target.value); setError(""); }} autoComplete="off" required />
+            <Field label="Tu contraseña actual" name="emailChangePassword" type="password" value={password} onChange={(event) => { setPassword(event.target.value); setError(""); }} autoComplete="current-password" required />
+            {error && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+            <div className="grid gap-3 pt-2">
+              <button type="submit" disabled={isSending} className={primaryButton}>{isSending ? "Enviando…" : "Enviar confirmación"}</button>
+              <button type="button" onClick={close} className={secondaryButton}>Cancelar</button>
+            </div>
+          </form>
+        </Modal>
       )}
-      {sentTo && <p aria-live="polite" className="mt-3 rounded-xl bg-sky-50 px-4 py-3 text-sm text-sky-800">Te enviamos un correo a <strong>{sentTo}</strong>. Tu email no cambia hasta que confirmes con el enlace; mientras tanto seguís ingresando con {currentEmail}.</p>}
-      {isOpen && (
-        <div className="mt-4 space-y-4 rounded-xl border border-border bg-neutral-50 p-4" onKeyDown={onEnter}>
-          <Field label="Nuevo email" name="newEmail" type="email" value={newEmail} onChange={(event) => { setNewEmail(event.target.value); setError(""); }} autoComplete="off" />
-          <Field label="Tu contraseña actual" name="emailChangePassword" type="password" value={password} onChange={(event) => { setPassword(event.target.value); setError(""); }} autoComplete="current-password" />
-          <p className="text-xs text-text-secondary">Te enviaremos un enlace al nuevo email. El cambio se aplica cuando lo confirmes.</p>
-          {error && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-          <div className="flex flex-wrap gap-3">
-            <button type="button" onClick={submit} disabled={isSending} className="rounded-xl bg-background-dark px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:cursor-wait disabled:opacity-60">{isSending ? "Enviando…" : "Enviar confirmación"}</button>
-            <button type="button" onClick={close} className="rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-medium text-text-secondary transition hover:text-text">Cancelar</button>
-          </div>
-        </div>
+
+      {isOpen && sentTo && (
+        <Modal title="Revisá tu correo" icon={<Mail size={25} />} onClose={close}>
+          <p className="mt-3 text-text-secondary">Te enviamos un email a <strong className="text-text">{sentTo}</strong>. Abrí el enlace para confirmar el cambio; tu email actual no cambia hasta entonces.</p>
+          <p className="mt-3 text-sm text-text-secondary">Si no lo ves, revisá la carpeta de spam. El enlace vence en 24 horas.</p>
+          <div className="mt-6"><button type="button" onClick={close} className={primaryButton}>Entendido</button></div>
+        </Modal>
       )}
     </div>
   );
@@ -197,19 +207,13 @@ const AuthenticationForm = ({ sessionError, returnTo }) => {
     }
   };
 
-  if (pendingEmail) {
-    return (
-      <VerificationNotice
-        email={pendingEmail}
-        kind={noticeKind}
-        onResend={resend}
-        onBack={() => { setPendingEmail(""); setMode("login"); setErrorMessage(""); setSuccessMessage(""); }}
-        isSubmitting={isSubmitting}
-        message={successMessage}
-        error={errorMessage}
-      />
-    );
-  }
+  const closeNotice = () => {
+    setPendingEmail("");
+    setMode("login");
+    setErrorMessage("");
+    setSuccessMessage("");
+    setForm((current) => ({ ...current, password: "" }));
+  };
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-col justify-center px-2 py-10 text-text sm:px-6 lg:min-h-[38rem]">
@@ -244,6 +248,18 @@ const AuthenticationForm = ({ sessionError, returnTo }) => {
         <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wider text-text-secondary"><span className="h-px flex-1 bg-border" />o<span className="h-px flex-1 bg-border" /></div>
         <button type="button" disabled title="Google Sign-In no forma parte de esta etapa." className="flex w-full cursor-not-allowed items-center justify-center gap-3 rounded-xl border border-border px-5 py-3 font-medium text-text-secondary opacity-60"><GoogleMark />Continuar con Google próximamente</button>
       </div>
+
+      {pendingEmail && (
+        <VerificationNotice
+          email={pendingEmail}
+          kind={noticeKind}
+          onResend={resend}
+          onClose={closeNotice}
+          isSubmitting={isSubmitting}
+          message={successMessage}
+          error={errorMessage}
+        />
+      )}
     </main>
   );
 };
