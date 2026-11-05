@@ -83,6 +83,7 @@ const PaymentResultMain = () => {
         {state.order?.shipping_status === "pending_quote" && <p className="mx-auto mt-4 max-w-lg rounded-xl bg-background px-4 py-3 text-sm text-text-secondary">El envío no fue incluido en este pago: se cotizará y coordinará por separado.</p>}
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link to="/catalog" className="rounded-xl bg-primary px-5 py-3 font-semibold text-white transition hover:bg-primary-dark">Seguir comprando</Link>
+          <Link to="/perfil?tab=compras" className="rounded-xl border border-border px-5 py-3 font-semibold text-text transition hover:border-primary hover:text-primary">Ver mis compras</Link>
           {state.order?.status !== "paid" && <Link to="/carrito" className="rounded-xl border border-border px-5 py-3 font-semibold text-text transition hover:border-primary hover:text-primary">Volver al carrito</Link>}
         </div>
       </section>

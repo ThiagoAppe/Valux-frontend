@@ -8,7 +8,7 @@ const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), selec
  * Diálogo modal accesible: cierra con Escape, clic en el fondo o la X,
  * bloquea el scroll de la página y devuelve el foco al cerrarse.
  */
-const Modal = ({ title, icon, onClose, children, dismissible = true }) => {
+const Modal = ({ title, icon, onClose, children, dismissible = true, size = "md" }) => {
   const titleId = useId();
   const panelRef = useRef(null);
 
@@ -59,7 +59,7 @@ const Modal = ({ title, icon, onClose, children, dismissible = true }) => {
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="modal-panel relative max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-3xl border border-border bg-background p-6 text-text shadow-2xl outline-none sm:p-8"
+        className={`modal-panel relative max-h-[90dvh] w-full ${size === "lg" ? "max-w-xl" : "max-w-md"} overflow-y-auto rounded-3xl border border-border bg-background p-6 text-text shadow-2xl outline-none sm:p-8`}
       >
         {dismissible && (
           <button type="button" data-modal-close onClick={onClose} aria-label="Cerrar" className="absolute right-4 top-4 rounded-full p-2 text-text-secondary transition hover:bg-primary-light/40 hover:text-text">
