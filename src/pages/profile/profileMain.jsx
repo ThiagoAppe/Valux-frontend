@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LogOut, Mail, MapPin, Save, UserRound } from "lucide-react";
 import useAuth from "../../context/useAuth";
+import { resendVerification } from "../../services/authService";
 import { createAddress, getAddresses, updateAddress, updateProfile } from "../../services/profileService";
 
 const emptyProfile = {
@@ -47,6 +48,21 @@ const AuthenticationForm = ({ sessionError, returnTo }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState("");
+
+  const resend = async () => {
+    setErrorMessage("");
+    setSuccessMessage("");
+    setIsSubmitting(true);
+    try {
+      await resendVerification(pendingEmail);
+      setSuccessMessage("Si la cuenta falta confirmar, te enviamos un nuevo correo. Puede tardar un minuto.");
+    } catch (error) {
+      setErrorMessage(error.message || "No se pudo reenviar el correo.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const updateField = (event) => {
     const { name, value } = event.target;
@@ -58,12 +74,14 @@ const AuthenticationForm = ({ sessionError, returnTo }) => {
     setMode(nextMode);
     setErrorMessage("");
     setSuccessMessage("");
+    setPendingEmail("");
   };
 
   const submit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
+    setPendingEmail("");
     setIsSubmitting(true);
 
     try {
@@ -78,14 +96,12 @@ const AuthenticationForm = ({ sessionError, returnTo }) => {
           last_name: form.lastName,
           phone: form.phone || null,
         });
-        await login({ email: form.email, password: form.password });
-        if (returnTo) {
-          navigate(returnTo);
-        } else {
-          setSuccessMessage("Tu cuenta fue creada y ya iniciaste sesión.");
-        }
+        // La cuenta debe confirmarse por email antes de poder iniciar sesión.
+        setPendingEmail(form.email);
+        setSuccessMessage(`Te enviamos un correo a ${form.email}. Confirmá tu email para activar la cuenta.`);
       }
     } catch (error) {
+      if (mode === "login" && error.status === 403) setPendingEmail(form.email);
       setErrorMessage(error.message || "No se pudo completar la solicitud.");
     } finally {
       setIsSubmitting(false);
@@ -121,6 +137,7 @@ const AuthenticationForm = ({ sessionError, returnTo }) => {
 
         {(errorMessage || sessionError) && <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage || sessionError}</p>}
         {successMessage && <p aria-live="polite" className="mt-4 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">{successMessage}</p>}
+        {pendingEmail && <button type="button" onClick={resend} disabled={isSubmitting} className="mt-3 text-sm font-medium text-primary underline disabled:opacity-60">Reenviar correo de confirmación</button>}
 
         <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wider text-text-secondary"><span className="h-px flex-1 bg-border" />o<span className="h-px flex-1 bg-border" /></div>
         <button type="button" disabled title="Google Sign-In no forma parte de esta etapa." className="flex w-full cursor-not-allowed items-center justify-center gap-3 rounded-xl border border-border px-5 py-3 font-medium text-text-secondary opacity-60"><GoogleMark />Continuar con Google próximamente</button>
