@@ -7,6 +7,7 @@ const VerifyEmailMain = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [status, setStatus] = useState(token ? "loading" : "error");
+  const [emailChanged, setEmailChanged] = useState(false);
   const [message, setMessage] = useState(token ? "" : "El enlace de verificación es inválido.");
   const started = useRef(false);
 
@@ -16,7 +17,10 @@ const VerifyEmailMain = () => {
     started.current = true;
 
     verifyEmail(token)
-      .then(() => setStatus("ok"))
+      .then((result) => {
+        setEmailChanged(Boolean(result?.email_changed));
+        setStatus("ok");
+      })
       .catch((error) => {
         setStatus("error");
         setMessage(error.message || "No se pudo confirmar el email.");
@@ -30,8 +34,8 @@ const VerifyEmailMain = () => {
         {status === "loading" && <p className="mt-6" aria-live="polite">Confirmando tu email…</p>}
         {status === "ok" && (
           <>
-            <h1 className="mt-6 text-3xl font-semibold">¡Email confirmado!</h1>
-            <p className="mt-3 text-text-secondary">Tu cuenta está activa. Ya podés ingresar.</p>
+            <h1 className="mt-6 text-3xl font-semibold">{emailChanged ? "¡Email actualizado!" : "¡Email confirmado!"}</h1>
+            <p className="mt-3 text-text-secondary">{emailChanged ? "Ya podés ingresar con tu nuevo email." : "Tu cuenta está activa. Ya podés ingresar."}</p>
             <Link to="/perfil" className="mt-6 inline-block rounded-xl bg-background-dark px-5 py-3 font-semibold text-white transition hover:bg-primary-dark">Ingresar</Link>
           </>
         )}
