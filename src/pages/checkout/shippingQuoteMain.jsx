@@ -8,6 +8,8 @@ import { getAddresses } from "../../services/profileService";
 import { quoteShipping } from "../../services/shippingService";
 
 const formatPrice = (price) => Number(price ?? 0).toLocaleString("es-AR");
+// El envío a domicilio todavía no se ofrece (el backend también lo rechaza).
+const DELIVERY_ENABLED = false;
 const CHECKOUT_MAINTENANCE_MESSAGE = "En mantenimiento";
 const CHECKOUT_ENABLED = false;
 // Enable only when the deployment explicitly uses Mercado Pago test credentials.
@@ -19,7 +21,7 @@ const ShippingQuoteMain = () => {
   const { items, subtotal } = useCart();
   const navigate = useNavigate();
   const [address, setAddress] = useState(null);
-  const [deliveryMethod, setDeliveryMethod] = useState("delivery");
+  const [deliveryMethod, setDeliveryMethod] = useState(DELIVERY_ENABLED ? "delivery" : "store_pickup");
   const [quote, setQuote] = useState(null);
   const [error, setError] = useState("");
   const [isLoadingAddress, setIsLoadingAddress] = useState(true);
@@ -118,11 +120,13 @@ const ShippingQuoteMain = () => {
     <main className="mx-auto w-full max-w-3xl px-2 py-6 text-text sm:px-6 lg:py-10">
       <p className="text-sm uppercase tracking-[0.2em] text-text-secondary">Paso 2 de 3</p>
       <h1 className="mt-2 text-3xl font-semibold">Envío y pago</h1>
-      <p className="mt-3 text-text-secondary">Primero confirmamos el costo de envío; después elegís cómo pagar el total.</p>
+      <p className="mt-3 text-text-secondary">{DELIVERY_ENABLED ? "Primero confirmamos el costo de envío; después elegís cómo pagar el total." : "Por ahora retirás tu pedido en el almacén, sin costo de envío."}</p>
       {MP_TEST_CHECKOUT_ENABLED && <p role="status" className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">Modo de prueba: usá solamente cuentas y tarjetas de prueba de Mercado Pago.</p>}
 
       <section className="mt-7 grid gap-3 sm:grid-cols-2">
-        <button type="button" onClick={() => { setDeliveryMethod("delivery"); setQuote(null); setError(""); }} className={`rounded-2xl border p-5 text-left shadow-sm transition ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border bg-white hover:border-primary/50"}`}><Truck className="text-primary" /><h2 className="mt-3 font-semibold">Envío a domicilio</h2><p className="mt-1 text-sm text-text-secondary">Calculamos el costo según tu dirección.</p></button>
+        {DELIVERY_ENABLED
+          ? <button type="button" onClick={() => { setDeliveryMethod("delivery"); setQuote(null); setError(""); }} className={`rounded-2xl border p-5 text-left shadow-sm transition ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border bg-white hover:border-primary/50"}`}><Truck className="text-primary" /><h2 className="mt-3 font-semibold">Envío a domicilio</h2><p className="mt-1 text-sm text-text-secondary">Calculamos el costo según tu dirección.</p></button>
+          : <div aria-disabled="true" className="relative cursor-not-allowed rounded-2xl border border-border bg-white/60 p-5 text-left opacity-70"><span className="absolute right-4 top-4 rounded-full bg-primary-light/60 px-3 py-1 text-xs font-medium text-primary-dark">Próximamente</span><Truck className="text-text-secondary" /><h2 className="mt-3 font-semibold text-text-secondary">Envío a domicilio</h2><p className="mt-1 text-sm text-text-secondary">Estamos preparando los envíos. Por ahora, retirá sin costo en el almacén.</p></div>}
         <button type="button" onClick={() => { setDeliveryMethod("store_pickup"); setQuote(null); setError(""); }} className={`rounded-2xl border p-5 text-left shadow-sm transition ${deliveryMethod === "store_pickup" ? "border-primary bg-primary/5" : "border-border bg-white hover:border-primary/50"}`}><Store className="text-primary" /><h2 className="mt-3 font-semibold">Retiro en almacén</h2><p className="mt-1 text-sm text-text-secondary">Sin costo de envío. Te avisaremos cuando esté listo.</p></button>
       </section>
 

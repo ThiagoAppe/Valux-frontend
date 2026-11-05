@@ -35,8 +35,8 @@ const About = () => {
           <div className="relative">
             <div className="aspect-square overflow-hidden rounded-3xl bg-zinc-100">
               <img
-                src="/images/about-workshop.jpg"
-                alt="Espacio de trabajo de Valux Deco"
+                src="/Landing/inspiracion/about-taller.webp"
+                alt="Bandeja y difusor de diseño sobre una mesa de madera"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -96,11 +96,10 @@ const About = () => {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="order-2 lg:order-1">
             <div className="aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-100">
-              <img
-                src="/images/luciano.jpg"
-                alt="Luciano Valentino"
-                className="h-full w-full object-cover"
-              />
+              <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-primary-light/50 p-10 text-center">
+                <img src="/Logo/logoNegro.png" alt="" className="w-40 opacity-80" />
+                <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">Luciano Valentino</p>
+              </div>
             </div>
           </div>
 
@@ -150,8 +149,9 @@ const About = () => {
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
-                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=900&q=80"
-                alt="Impresora 3D fabricando una pieza"
+                src="/Landing/inspiracion/about-impresion3d.webp"
+                alt="Difusor con textura de capas, típica de la impresión 3D"
+                loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
               />
               <div className="p-7">
@@ -168,8 +168,9 @@ const About = () => {
 
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
-                src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80"
-                alt="Muebles en un espacio de hogar"
+                src="/Landing/inspiracion/about-muebles.webp"
+                alt="Living con muebles de madera y tapizados"
+                loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
               />
               <div className="p-7">
@@ -187,8 +188,9 @@ const About = () => {
 
             <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
               <img
-                src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=900&q=80"
-                alt="Interior preparado con detalles personalizados"
+                src="/Landing/inspiracion/about-personalizacion.webp"
+                alt="Relieve tallado a medida sobre madera"
+                loading="lazy"
                 className="aspect-[4/3] w-full object-cover"
               />
               <div className="p-7">

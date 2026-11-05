@@ -16,8 +16,7 @@ import { Link } from "react-router-dom";
 import Categories from "../../components/landing/Categories";
 import FeaturedProducts from "../../components/landing/featuredProducts";
 
-const placeholder = (label, width = 900, height = 700) =>
-  `https://placehold.co/${width}x${height}/d9bfa7/3e2c23?text=${encodeURIComponent(label)}`;
+const IMG = "/Landing/inspiracion";
 
 const benefits = [
   {
@@ -33,7 +32,7 @@ const benefits = [
   {
     icon: Truck,
     title: "Envíos cuidados",
-    text: "Preparamos cada pedido para que llegue listo para disfrutar.",
+    text: "Preparamos cada pedido con cuidado. Retiro en almacén hoy; envíos a domicilio próximamente.",
   },
   {
     icon: MessageCircle,
@@ -92,7 +91,7 @@ const faqs = [
   ],
   [
     "¿Realizan envíos?",
-    "Sí, coordinamos envíos para que recibas tu compra de forma cómoda y segura.",
+    "Por ahora podés retirar tu pedido en nuestro almacén, sin costo. El envío a domicilio estará disponible próximamente.",
   ],
   [
     "¿Cómo cuido mis productos?",
@@ -157,8 +156,9 @@ const EditorialSection = () => (
   <section className="mx-auto grid max-w-7xl items-center gap-10 px-2 py-18 sm:px-6 lg:grid-cols-2 lg:gap-18">
     <div className="overflow-hidden rounded-3xl bg-primary-light">
       <img
-        src={placeholder("Un espacio hecho a tu manera")}
-        alt="Inspiración para decorar tu hogar"
+        src={`${IMG}/espacio.webp`}
+        alt="Macetas de diseño en un patio con luces cálidas"
+        loading="lazy"
         className="aspect-[4/3] h-full w-full object-cover"
       />
     </div>
@@ -216,8 +216,9 @@ const CustomOrder = () => (
   <section className="mx-auto max-w-7xl px-2 py-18 sm:px-6">
     <div className="grid overflow-hidden rounded-3xl bg-primary-light lg:grid-cols-[0.9fr_1.1fr]">
       <img
-        src={placeholder("Tu idea, hecha objeto", 850, 650)}
-        alt="Ejemplo de un proyecto personalizado"
+        src={`${IMG}/personalizado.webp`}
+        alt="Relieve tallado a medida sobre madera"
+        loading="lazy"
         className="h-full min-h-72 w-full object-cover"
       />
       <div className="flex flex-col justify-center p-8 sm:p-12">
@@ -270,8 +271,9 @@ const Story = () => (
       </Link>
     </div>
     <img
-      src={placeholder("Detalles que hacen hogar", 1000, 750)}
-      alt="Detalle de una pieza decorativa"
+      src={`${IMG}/detalle.webp`}
+      alt="Detalle del borde texturado de una bandeja decorativa"
+      loading="lazy"
       className="aspect-[4/3] w-full rounded-3xl object-cover"
     />
   </section>
@@ -290,7 +292,7 @@ const Gallery = () => (
           </h2>
         </div>
         <Link
-          to="/"
+          to="/catalog"
           className="inline-flex items-center gap-2 font-semibold text-primary"
         >
           Ver más inspiración <ArrowRight size={18} />
@@ -298,24 +300,21 @@ const Gallery = () => (
       </div>
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3">
         {[
-          "Un rincón para vos",
-          "Texturas y calma",
-          "Detalles cotidianos",
-          "Luz de tarde",
-          "Objetos con carácter",
-        ].map((label, index) => (
+          { label: "Un rincón para vos", file: "galeria-rincon.webp" },
+          { label: "Texturas y calma", file: "galeria-texturas.webp" },
+          { label: "Detalles cotidianos", file: "galeria-detalles.webp" },
+          { label: "Luz de tarde", file: "galeria-luz.webp" },
+          { label: "Objetos con carácter", file: "galeria-objetos.webp" },
+        ].map(({ label, file }, index) => (
           <Link
             key={label}
-            to="/"
+            to="/catalog"
             className={`group overflow-hidden rounded-2xl ${index === 0 || index === 5 ? "md:row-span-2" : ""}`}
           >
             <img
-              src={placeholder(
-                label,
-                700,
-                index === 0 || index === 5 ? 1100 : 700,
-              )}
+              src={`${IMG}/${file}`}
               alt={label}
+              loading="lazy"
               className="aspect-square h-full w-full object-cover transition duration-500 group-hover:scale-105 md:aspect-auto"
             />
           </Link>
